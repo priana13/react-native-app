@@ -1,8 +1,36 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import axios from "axios";
 import { Link } from 'expo-router';
+import { useEffect, useState } from "react";
 
 export default function Index() {
+
+  const [surat, setSurat] = useState([]);
+
+const getSurat = async () => {
+
+  // ganti dengan axios
+  // try {
+  //   const response = await fetch('https://api.quran.sutanlab.id/surah');
+  //   const data = await response.json();
+  //   console.log(data);
+  // } catch (error) {
+  //   console.error('Error fetching data:', error);
+  // }
+
+  const response = await axios.get('https://equran.id/api/v2/surat');
+  const data = response.data;
+  console.log(data);
+  setSurat(data.data);
+};  
+
+
+useEffect (() => {
+  getSurat();
+}, []); 
+
+
   return (
     <View
       style={styles.container}
@@ -13,9 +41,11 @@ export default function Index() {
 
        <View style={styles.main}>
 
-        <Text style={{ fontSize: 20, color:"#1B998B" }}>Selamat datang di aplikasi React Native</Text>
-        <Text style={{ fontSize: 16, color:"#2D3142" }}>Ini adalah halaman utama yang sederhana.</Text>
-        <Text style={{ fontSize: 16, color:"#2D3142" }}>Anda dapat menavigasi ke halaman detail untuk informasi lebih lanjut.</Text>
+        { surat.map((item, index) => (
+          <Text key={index} style={{ fontSize: 20, color:"#1B998B" }}>
+            {item.nama} - {item.namaLatin}
+          </Text>   
+        ))}
        
       </View>
 
@@ -32,6 +62,8 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#FAEDCA",
+      padding: 20,
+      margin: 15,
   },
   main : {
 
