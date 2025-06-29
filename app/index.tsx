@@ -1,7 +1,10 @@
+/* eslint-disable */
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Dimensions, Image, Text, View } from 'react-native'; // tambahkan Dimensions
 import Carousel from 'react-native-reanimated-carousel';
+import Error from "../components/error"; // pastikan path ini sesuai dengan struktur proyek Anda
 
 const { width } = Dimensions.get('window'); // tambahkan ini
 
@@ -13,10 +16,10 @@ const data = [
 
 export default function Index() {
 
-const [surat, setSurat] = useState([]);
+    const [surat, setSurat] = useState([]);
+    const [errorStatus, setErrorStatus] = useState('terjadi error');
     
-    const getSurat = async () => {
-    
+    const getSurat = async () => {    
     
       const response = await axios.get(`https://equran.id/api/v2/surat`);
       const data = response.data;
@@ -60,6 +63,8 @@ const [surat, setSurat] = useState([]);
         ))}
        
       </View>
+
+      {errorStatus && <Error errorMessage="Test" />}
     </View>
   );
 }
