@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Dimensions, Image, Text, View } from 'react-native'; // tambahkan Dimensions
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native'; // tambahkan Dimensions
 import Carousel from 'react-native-reanimated-carousel';
 import Error from "../components/error"; // pastikan path ini sesuai dengan struktur proyek Anda
 
@@ -33,7 +33,7 @@ export default function Index() {
 
 
   return (
-    <View >
+    <ScrollView >
       <Carousel
         width={width}
         height={220}
@@ -56,16 +56,53 @@ export default function Index() {
 
        <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
 
-        { surat.map((item, index) => (
+        {/* { surat.map((item, index) => (
           <Text key={index} style={{ fontSize: 20, color:"#1B998B" }}>
            {item.nama} -{item.namaLatin} 
           </Text>   
-        ))}
+        ))} */}
+
+        <View style={styles.container}>
+
+          <FlatList
+
+            style={styles.carousel}
+            data={surat}     
+            horizontal={true}    
+            renderItem={({ item }) => (
+              <Text style={styles.surah}>
+                {item.nama} - {item.namaLatin}
+              </Text>
+            )}
+          />
+
+        </View>
+
        
+
       </View>
 
       {errorStatus && <Error errorMessage="Test" />}
-    </View>
+    </ScrollView>
   );
 }
 
+
+const styles = StyleSheet.create({
+  container : {
+    flex: 1,    
+  },
+  carousel  : {
+   flex: 1,
+    marginTop: 5
+  },
+  surah: {
+    fontSize: 20, 
+    color:"#1B998B",
+    paddingHorizontal:15,
+    backgroundColor: "#FFFADC",
+    margin:5,
+    borderRadius: 10
+
+  }
+});
