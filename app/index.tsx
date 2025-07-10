@@ -1,8 +1,9 @@
 /* eslint-disable */
 
 import axios from "axios";
+import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native'; // tambahkan Dimensions
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // tambahkan Dimensions
 import Carousel from 'react-native-reanimated-carousel';
 import Error from "../components/error"; // pastikan path ini sesuai dengan struktur proyek Anda
 
@@ -18,6 +19,8 @@ export default function Index() {
 
     const [surat, setSurat] = useState([]);
     const [errorStatus, setErrorStatus] = useState('terjadi error');
+
+    const navigation = useNavigation();
     
     const getSurat = async () => {    
     
@@ -35,13 +38,19 @@ export default function Index() {
   return (
     <ScrollView >
       <Carousel
+        
         width={width}
         height={220}
         data={data}
         renderItem={({ item }) => (
           <View style={{ alignItems: 'center' }}>
-            <Image source={{ uri: item.url }} style={{ width: width - 60, height: 200, borderRadius: 10 }} />
-            <Text>{item.title}</Text>
+            <TouchableOpacity>
+
+              <Image source={{ uri: item.url }} style={{ width: width - 60, height: 200, borderRadius: 10 }} />
+              <Text>{item.title}</Text>
+
+            </TouchableOpacity>
+
           </View>
         )}
         loop
@@ -70,9 +79,12 @@ export default function Index() {
             data={surat}     
             horizontal={true}    
             renderItem={({ item }) => (
-              <Text style={styles.surah}>
-                {item.nama} - {item.namaLatin}
-              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('detail')}>
+                <Text style={styles.surah}>
+                  {item.nama} - {item.namaLatin}
+                </Text>
+
+              </TouchableOpacity>
             )}
           />
 
