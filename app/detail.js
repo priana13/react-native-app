@@ -1,13 +1,15 @@
 import axios from 'axios';
+import { Audio } from 'expo-av';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 export default function DetailsScreen() {
 
   const params = useLocalSearchParams();
 
-  const [fullAudio, setFullAudio] = useState('test');
+  const [fullAudio, setFullAudio] = useState({});
+  const [surat, setSurat] = useState();
 
 
 
@@ -16,16 +18,24 @@ export default function DetailsScreen() {
     // console.log(id)
     
       const response = await axios.get(`https://equran.id/api/v2/surat/${id}`);
-      const data = await response;
+      const dataResponse = await response;
 
+      // if(response.ok){
 
-      // console.log(data)
+        setSurat(dataResponse.data);
+        setFullAudio(dataResponse?.data?.data?.audioFull || {});     
 
-      setFullAudio(data?.data?.audioFull);
+        console.log(dataResponse?.data?.data?.audioFull)
 
-      console.log(fullAudio);
+      // }
+
       
     }; 
+
+  const playSound = async (url) => {
+    const { sound } = await Audio.Sound.createAsync({ uri: url });
+    await sound.playAsync();
+  };
 
   useEffect(() => {
 
@@ -37,10 +47,24 @@ export default function DetailsScreen() {
 
 
   return (
-    <View style={styles.container}>
-      <Text>Ini adalah halaman detail : { fullAudio }</Text>
-    </View>
-  );
+  <View style={styles.container}>
+    <Text>Surat: {surat?.data?.nama}</Text>
+    <Text>Ayat</Text>
+
+    {fullAudio && (
+      <View>
+        {Object.entries(fullAudio).map(([key, url]) => (
+          <View key={key} style={{ marginBottom: 10 }}>
+            <Text>{key}</Text>          
+            <Button title="Play" onPress={() => playSound(url)} />           
+          </View>
+        ))}
+      </View>
+    )}
+  </View>
+);
+
+  
 }
 
 const styles = StyleSheet.create({
