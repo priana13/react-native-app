@@ -54,17 +54,16 @@ export default function DetailsScreen() {
     <Text>Ayat</Text>
 
     {ayat && (
-      <ScrollView>
+      <View style={styles.container} >
         {Object.entries(ayat).map(([index, value]) => (
-          <View key={index} style={{ marginBottom: 10 }}>
-            <Text>{value.nomorAyat}</Text>          
-            <Text style={{ fontFamily: 'LPMQ', fontSize: 24 }}>{value.teksArab}</Text>          
-            <Text>{value.teksIndonesia}</Text>          
+          <View key={index} style={{ marginVertical: 20 }}>                     
+            <Text style={{ fontFamily: 'LPMQ', fontSize: 24 }}> {value.nomorAyat}  {value.teksArab} </Text>          
+            <Text>{value.nomorAyat}. {value.teksIndonesia}</Text>          
             {/* <Text>{value}</Text>           */}
             {/* <Button title="Play" onPress={() => playSound(value.audio.01)} />            */}
           </View>
         ))}
-      </ScrollView>
+      </View>
     )}
   </ScrollView>
 );
@@ -75,7 +74,6 @@ export default function DetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin:20   
   },
 });
