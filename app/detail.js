@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function DetailsScreen() {
 
@@ -10,6 +10,7 @@ export default function DetailsScreen() {
 
   const [fullAudio, setFullAudio] = useState({});
   const [surat, setSurat] = useState();
+  const [ayat, setAyat] = useState({});
 
 
 
@@ -24,8 +25,9 @@ export default function DetailsScreen() {
 
         setSurat(dataResponse.data);
         setFullAudio(dataResponse?.data?.data?.audioFull || {});     
+        setAyat(dataResponse?.data?.data?.ayat || {});     
 
-        console.log(dataResponse?.data?.data?.audioFull)
+        console.log(dataResponse?.data?.data?.ayat)
 
       // }
 
@@ -47,21 +49,24 @@ export default function DetailsScreen() {
 
 
   return (
-  <View style={styles.container}>
+  <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
     <Text>Surat: {surat?.data?.nama}</Text>
     <Text>Ayat</Text>
 
-    {fullAudio && (
-      <View>
-        {Object.entries(fullAudio).map(([key, url]) => (
-          <View key={key} style={{ marginBottom: 10 }}>
-            <Text>{key}</Text>          
-            <Button title="Play" onPress={() => playSound(url)} />           
+    {ayat && (
+      <ScrollView>
+        {Object.entries(ayat).map(([index, value]) => (
+          <View key={index} style={{ marginBottom: 10 }}>
+            <Text>{value.nomorAyat}</Text>          
+            <Text style={{ fontFamily: 'LPMQ', fontSize: 24 }}>{value.teksArab}</Text>          
+            <Text>{value.teksIndonesia}</Text>          
+            {/* <Text>{value}</Text>           */}
+            {/* <Button title="Play" onPress={() => playSound(value.audio.01)} />            */}
           </View>
         ))}
-      </View>
+      </ScrollView>
     )}
-  </View>
+  </ScrollView>
 );
 
   

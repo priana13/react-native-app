@@ -79,7 +79,7 @@ export default function Index() {
             data={surat}     
             horizontal={true}    
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => navigation.navigate('detail',{id: 1})}>
+              <TouchableOpacity onPress={() => navigation.navigate('detail',{id: item.nomor})}>
                 <Text style={styles.surah}>
                   {item.nama} - {item.namaLatin}
                 </Text>
