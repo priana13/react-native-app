@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import axios from "axios";
+import dateFormat from "dateformat";
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // tambahkan Dimensions
@@ -28,7 +29,9 @@ export default function Index() {
       const data = response.data;
       // console.log(data);
       setSurat(data.data);
-    };    
+    };  
+    
+    const now = new Date();
     
     useEffect (() => {
       getSurat();
@@ -37,6 +40,12 @@ export default function Index() {
 
   return (
     <ScrollView >
+
+
+      <View style={styles.container}>
+        <Text style={styles.centerText}>{dateFormat(now)}</Text>
+      </View>
+
       <Carousel
         
         width={width}
@@ -116,5 +125,10 @@ const styles = StyleSheet.create({
     margin:5,
     borderRadius: 10
 
-  }
+  },
+   centerText: {
+    textAlign: 'center',
+    fontSize: 18,
+    paddingVertical: 5
+  },
 });
