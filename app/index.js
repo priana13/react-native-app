@@ -6,7 +6,7 @@ import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // tambahkan Dimensions
 import Carousel from 'react-native-reanimated-carousel';
-import Error from "../components/error"; // pastikan path ini sesuai dengan struktur proyek Anda
+import PlayButton from "./PlayButton";
 
 const { width } = Dimensions.get('window'); // tambahkan ini
 
@@ -103,7 +103,12 @@ export default function Index() {
 
       </View>
 
-      {errorStatus && <Error errorMessage="Test" />}
+      <View>
+
+        <PlayButton />
+         
+      </View>
+    
     </ScrollView>
   );
 }
