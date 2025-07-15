@@ -1,10 +1,11 @@
 /* eslint-disable */
 
+import { Button } from "@react-navigation/elements";
 import axios from "axios";
 import dateFormat from "dateformat";
 import { useNavigation } from "expo-router";
-import { useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // tambahkan Dimensions
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // tambahkan Dimensions
 import Carousel from 'react-native-reanimated-carousel';
 import PlayButton from "./PlayButton";
 
@@ -32,8 +33,16 @@ export default function Index() {
     };  
     
     const now = new Date();
+
+    useLayoutEffect(() => {
+      
+      navigation.setOptions({ headerShown: false });
+
+    },[navigation]);
     
     useEffect (() => {
+
+
       getSurat();
     }, []); 
 
@@ -106,6 +115,12 @@ export default function Index() {
       <View>
 
         <PlayButton />
+
+        <Pressable>
+
+            <Button onPressIn={() => navigation.navigate('video')}  title="Video"> Video Kajian </Button>
+
+        </Pressable>
          
       </View>
     
